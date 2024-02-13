@@ -1,9 +1,10 @@
-package com.fastcampus.ch2;
+package com.fastcampus.ch4.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.fastcampus.ch4.domain.BoardDto;
+import com.fastcampus.ch4.domain.PageHandler;
 import com.fastcampus.ch4.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,17 +23,24 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping("/list")
-    public String list(int page, int pageSize, Model m, HttpServletRequest request) {
+    public String list(Integer page, Integer pageSize, Model m, HttpServletRequest request) {
         if(!loginCheck(request))
             return "redirect:/login/login?toURL="+request.getRequestURL();  // 로그인을 안했으면 로그인 화면으로 이동
 
+        if(page==null) page=1;
+        if (pageSize==null) pageSize=1;
+
         try {
+            int totalCnt = boardService.getCount();
+            PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+
             Map map = new HashMap();
             map.put("offset", (page-1)*pageSize);
             map.put("pageSize", pageSize);
 
            List<BoardDto> list =  boardService.getPage(map);
            m.addAttribute("list", list);
+           m.addAttribute("ph", pageHandler);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
