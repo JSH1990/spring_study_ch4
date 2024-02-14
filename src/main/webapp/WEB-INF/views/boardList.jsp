@@ -40,13 +40,13 @@
 <br>
 <div>
     <c:if test="${ph.showPrev}">
-        <a href="<c:url value='/board/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}'/>">&lt;</a>
+        <a href="<c:url value='/board/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}'/>">&lt;</a> <!-- 현재페이지는? 처음페이지에서 1을 뺀다/ 한페이지에 나오는 게시글은?-->
     </c:if>
-    <c:forEach var="1" begin="${ph.beginPage}" end="${ph.endPage}">
+    <c:forEach var="i" begin="${ph.beginPage}" end="${ph.endPage}">
         <a href="<c:url value='/board/list?page=${i}&pageSize=${ph.pageSize}'/>">${i}</a>
     </c:forEach>
     <c:if test="${ph.showNext}">
-        <a href="<c:url value='/board/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}'/>">&lt;</a>
+        <a href="<c:url value='/board/list?page=${ph.endPage+1}&pageSize=${ph.pageSize}'/>">&gt;</a>
     </c:if>
 </div>
 </div>

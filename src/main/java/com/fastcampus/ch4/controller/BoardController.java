@@ -28,7 +28,7 @@ public class BoardController {
             return "redirect:/login/login?toURL="+request.getRequestURL();  // 로그인을 안했으면 로그인 화면으로 이동
 
         if(page==null) page=1;
-        if (pageSize==null) pageSize=1;
+        if (pageSize==null) pageSize=10;
 
         try {
             int totalCnt = boardService.getCount();
