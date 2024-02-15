@@ -55,6 +55,7 @@ public class BoardController {
            List<BoardDto> list =  boardService.getPage(map);
            m.addAttribute("list", list);
            m.addAttribute("ph", pageHandler);
+           m.addAttribute("page", page);
            m.addAttribute("pageSize", pageSize);
         } catch (Exception e) {
             throw new RuntimeException(e);

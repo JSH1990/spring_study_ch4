@@ -31,7 +31,7 @@
         <c:forEach var="boardDto" items="${list}">
         <tr>
             <td>${boardDto.bno}</td>
-            <td><a href="<c:url value='/boardDto/read?bno=${boardDto.bno}&page=${page}&pageSize=${pageSize}'/>">${boardDto.title}</a></td>
+            <td><a href="<c:url value='/board/read?bno=${boardDto.bno}&page=${page}&pageSize=${pageSize}'/>">${boardDto.title}</a></td>
             <td>${boardDto.writer}</td>
             <td>${boardDto.reg_date}</td>
             <td>${boardDto.view_cnt}</td>
