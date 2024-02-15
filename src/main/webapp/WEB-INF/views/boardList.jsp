@@ -18,7 +18,8 @@
         <li><a href="<c:url value='/register/add'/>">Sign in</a></li>
         <li><a href=""><i class="fas fa-search small"></i></a></li>
     </ul>
-</div><div style="text-align:center">
+</div>
+<div style="text-align:center">
     <table border="1">
         <tr>
             <th>번호</th>
@@ -27,17 +28,18 @@
             <th>등록일</th>
             <th>조회수</th>
         </tr>
-        <c:forEach var="board" items="${list}">
+        <c:forEach var="boardDto" items="${list}">
         <tr>
-            <td>${board.bno}</td>
-            <td>${board.title}</td>
-            <td>${board.writer}</td>
-            <td>${board.reg_date}</td>
-            <td>${board.view_cnt}</td>
+            <td>${boardDto.bno}</td>
+            <td><a href="<c:url value='/boardDto/read?bno=${boardDto.bno}&page=${page}&pageSize=${pageSize}'/>">${boardDto.title}</a></td>
+            <td>${boardDto.writer}</td>
+            <td>${boardDto.reg_date}</td>
+            <td>${boardDto.view_cnt}</td>
         </tr>
         </c:forEach>
     </table>
 <br>
+
 <div>
     <c:if test="${ph.showPrev}">
         <a href="<c:url value='/board/list?page=${ph.beginPage-1}&pageSize=${ph.pageSize}'/>">&lt;</a> <!-- 현재페이지는? 처음페이지에서 1을 뺀다/ 한페이지에 나오는 게시글은?-->
