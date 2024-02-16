@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
@@ -22,12 +23,36 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @PostMapping("/remove")
+    public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session) {
+        String writer = (String)session.getAttribute("id");
+        try {
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+
+            int regCnt = boardService.remove(bno, writer);
+
+            if(regCnt==1)
+                throw new Exception("board remove error");
+
+        m.addAttribute("msg", "DELETE_OK");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute("msg", "DELETE_ERR");
+
+        }
+
+        return "redirect:/board/list"; //여기에 page값과 pageSize 값을 담으면 주소가 지저분해지므로, model담았다.
+}
+
     @GetMapping("/read")
     public String read(Integer bno, Integer page, Integer pageSize, Model m){
         try {
             BoardDto boardDto = boardService.read(bno); //아래문장과 동일
 //            m.addAttribute("boardDto", boardDto);
             m.addAttribute(boardDto);
+            m.addAttribute("page", page);
             m.addAttribute("pageSize", pageSize);
         } catch (Exception e) {
             throw new RuntimeException(e);
