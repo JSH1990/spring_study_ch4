@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,34 +24,61 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @PostMapping("/write")
+    public String write(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        boardDto.setWriter(writer);
+
+        try {
+            int rowCnt = boardService.write(boardDto);
+
+            if (rowCnt != 1) {
+                throw new Exception("Write failed");
+            }
+
+            rattr.addFlashAttribute("msg", "MRT_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(boardDto);
+            m.addAttribute("msg", "MRT_ERR");
+            return "board";
+        }
+    }
+
+    @GetMapping("/write")
+    public String write(Model m){
+        m.addAttribute("mode", "new");
+        return "board";
+    }
+
     @PostMapping("/remove")
-    public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session) {
-        String writer = (String)session.getAttribute("id");
+    public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
         try {
             m.addAttribute("page", page);
             m.addAttribute("pageSize", pageSize);
 
             int regCnt = boardService.remove(bno, writer);
 
-            if(regCnt==1)
+            if (regCnt != 1)
                 throw new Exception("board remove error");
 
-        m.addAttribute("msg", "DELETE_OK");
+            rattr.addFlashAttribute("msg", "DELETE_OK");
 
         } catch (Exception e) {
             e.printStackTrace();
-            m.addAttribute("msg", "DELETE_ERR");
-
+            rattr.addFlashAttribute("msg", "DELETE_ERR");
         }
 
-        return "redirect:/board/list"; //여기에 page값과 pageSize 값을 담으면 주소가 지저분해지므로, model담았다.
-}
+        return "redirect:/board/list";
+    }
 
     @GetMapping("/read")
-    public String read(Integer bno, Integer page, Integer pageSize, Model m){
+    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
         try {
-            BoardDto boardDto = boardService.read(bno); //아래문장과 동일
-//            m.addAttribute("boardDto", boardDto);
+            BoardDto boardDto = boardService.read(bno);
             m.addAttribute(boardDto);
             m.addAttribute("page", page);
             m.addAttribute("pageSize", pageSize);
