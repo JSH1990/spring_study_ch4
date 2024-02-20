@@ -23,7 +23,28 @@ import java.util.Map;
 public class BoardController {
     @Autowired
     BoardService boardService;
+    @PostMapping("/modify")
+    public String modify(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        boardDto.setWriter(writer);
 
+        try {
+            int rowCnt = boardService.modify(boardDto);
+
+            if (rowCnt != 1) {
+                throw new Exception("Modify failed");
+            }
+
+            rattr.addFlashAttribute("msg", "MOD_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(boardDto);
+            m.addAttribute("msg", "MOD_ERR");
+            return "board";
+        }
+    }
     @PostMapping("/write")
     public String write(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String) session.getAttribute("id");
