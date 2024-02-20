@@ -13,7 +13,6 @@ public class BoardDaoImpl implements BoardDao {
     private SqlSession session;
     private static String namespace = "com.fastcampus.ch4.dao.BoardMapper.";
 
-    @Override
     public int count() throws Exception {
         return session.selectOne(namespace+"count");
     } // T selectOne(String statement)
@@ -31,7 +30,6 @@ public class BoardDaoImpl implements BoardDao {
         return session.delete(namespace+"delete", map);
     } // int delete(String statement, Object parameter)
 
-    @Override
     public int insert(BoardDto dto) throws Exception {
         return session.insert(namespace+"insert", dto);
     } // int insert(String statement, Object parameter)
@@ -41,7 +39,6 @@ public class BoardDaoImpl implements BoardDao {
         return session.selectList(namespace+"selectAll");
     } // List<E> selectList(String statement)
 
-    @Override
     public BoardDto select(Integer bno) throws Exception {
         return session.selectOne(namespace + "select", bno);
     } // T selectOne(String statement, Object parameter)
@@ -61,5 +58,15 @@ public class BoardDaoImpl implements BoardDao {
         return session.update(namespace+"increaseViewCnt", bno);
     } // int update(String statement, Object parameter)
 
+    @Override
+    public int searchResultCnt(SearchCondition sc) throws Exception {
+        System.out.println("sc in searchResultCnt() = " + sc);
+        System.out.println("session = " + session);
+        return session.selectOne(namespace+"searchResultCnt", sc);
+    } // T selectOne(String statement, Object parameter)
 
+    @Override
+    public List<BoardDto> searchSelectPage(SearchCondition sc) throws Exception {
+        return session.selectList(namespace+"searchSelectPage", sc);
+    } // List<E> selectList(String statement, Object parameter)
 }

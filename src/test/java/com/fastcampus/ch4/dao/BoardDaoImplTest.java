@@ -18,6 +18,13 @@ public class BoardDaoImplTest {
     private BoardDao boardDao;
 
     @Test
+    public void searchSelectPageTest() throws Exception{
+        SearchCondition sc = new SearchCondition(1, 10, "title", "T");
+        List<BoardDto> list = boardDao.searchSelectPage(sc);
+        System.out.println("list = " + list);
+    }
+
+    @Test
     public void countTest() throws Exception {
         boardDao.deleteAll();
         assertTrue(boardDao.count()==0);

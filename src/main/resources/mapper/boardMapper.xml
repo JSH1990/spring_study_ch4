@@ -15,7 +15,7 @@
         SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
         FROM board
         WHERE true
-        AND title LIKE concat('%', #(keyword), '%')
+        AND title LIKE concat('%', #{keyword}, '%')
         ORDER BY reg_date DESC, bno DESC
             LIMIT #{offset} , #{pageSize}
     </select>
