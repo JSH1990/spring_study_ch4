@@ -28,27 +28,26 @@ import java.util.Map;
 public class BoardController {
     @Autowired
     BoardService boardService;
-    @PostMapping("/modify")
-    public String modify(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+    @PostMapping("/remove")
+    public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String) session.getAttribute("id");
-        boardDto.setWriter(writer);
-
         try {
-            int rowCnt = boardService.modify(boardDto);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
 
-            if (rowCnt != 1) {
-                throw new Exception("Modify failed");
-            }
+            int regCnt = boardService.remove(bno, writer);
 
-            rattr.addFlashAttribute("msg", "MOD_OK");
+            if (regCnt != 1)
+                throw new Exception("board remove error");
 
-            return "redirect:/board/list";
+            rattr.addFlashAttribute("msg", "DELETE_OK");
+
         } catch (Exception e) {
             e.printStackTrace();
-            m.addAttribute(boardDto);
-            m.addAttribute("msg", "MOD_ERR");
-            return "board";
+            rattr.addFlashAttribute("msg", "DELETE_ERR");
         }
+
+        return "redirect:/board/list";
     }
     @PostMapping("/write")
     public String write(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
@@ -79,42 +78,6 @@ public class BoardController {
         return "board";
     }
 
-    @PostMapping("/remove")
-    public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
-        String writer = (String) session.getAttribute("id");
-        try {
-            m.addAttribute("page", page);
-            m.addAttribute("pageSize", pageSize);
-
-            int regCnt = boardService.remove(bno, writer);
-
-            if (regCnt != 1)
-                throw new Exception("board remove error");
-
-            rattr.addFlashAttribute("msg", "DELETE_OK");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            rattr.addFlashAttribute("msg", "DELETE_ERR");
-        }
-
-        return "redirect:/board/list";
-    }
-
-    @GetMapping("/read")
-    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
-        try {
-            BoardDto boardDto = boardService.read(bno);
-            m.addAttribute(boardDto);
-            m.addAttribute("page", page);
-            m.addAttribute("pageSize", pageSize);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return "board";
-    }
-
     @GetMapping("/list")
     public String list(SearchCondition sc, Model m, HttpServletRequest request) {
         if (!loginCheck(request))
@@ -140,6 +103,43 @@ public class BoardController {
 
 
         return "boardList";
+    }
+
+    @GetMapping("/read")
+    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
+        try {
+            BoardDto boardDto = boardService.read(bno);
+            m.addAttribute(boardDto);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "board";
+    }
+
+    @PostMapping("/modify")
+    public String modify(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        boardDto.setWriter(writer);
+
+        try {
+            int rowCnt = boardService.modify(boardDto);
+
+            if (rowCnt != 1) {
+                throw new Exception("Modify failed");
+            }
+
+            rattr.addFlashAttribute("msg", "MOD_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(boardDto);
+            m.addAttribute("msg", "MOD_ERR");
+            return "board";
+        }
     }
 
     private boolean loginCheck(HttpServletRequest request) {
