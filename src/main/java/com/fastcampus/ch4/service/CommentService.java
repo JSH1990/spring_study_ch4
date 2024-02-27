@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CommentService {
     int getCount(Integer bno) throws Exception;
+    //테스트
 
     @Transactional(rollbackFor = Exception.class)
     int remove(Integer cno, Integer bno, String commenter) throws Exception;
