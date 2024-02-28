@@ -11,10 +11,14 @@ comment : <input type="text" name="comment"><br>
 <button id="modBtn" type="button">수정</button>
 <h2>Data From Server :</h2>
 <div id="commentList"></div>
+<div id="replyForm" style="display: none">
+    <input type="text" name="replyComment">
+    <button id="wrtRepBtn" type="button">등록</button>
+</div>
 
 <script>
     $(document).ready(function() {
-        let bno = 488;
+        let bno = 195;
 
         // 댓글 목록을 불러와 화면에 표시하는 함수
         let showList = function (bno) {
@@ -81,6 +85,13 @@ comment : <input type="text" name="comment"><br>
             });
         });
 
+        $("#commentList").on("click", ".replyBtn", function() {
+            //1.replyForm을 옮기고
+            $("#replyForm").appendTo($(this).parent());
+            //2.답글을 입력할 폼을 보여주고.
+            $("#replyForm").css("display", "block");
+        });
+
         // 수정 버튼 클릭 시 해당 댓글 내용을 input에 표시하고 cno를 저장
         $("#commentList").on("click", ".modBtn", function() {
             let cno = $(this).parent().attr("data-cno");
@@ -121,6 +132,7 @@ comment : <input type="text" name="comment"><br>
                 tmp += ' up_date=' + comment.up_date;
                 tmp += '<button class="delBtn">삭제</button>';
                 tmp += '<button class="modBtn">수정</button>';
+                tmp += '<button class="replyBtn">답글</button>';
                 tmp += '</li>';
             });
 
