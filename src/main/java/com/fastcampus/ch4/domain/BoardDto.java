@@ -3,13 +3,13 @@ package com.fastcampus.ch4.domain;
 import java.util.*;
 
 public class BoardDto {
-    private Integer bno;
-    private String  title;
-    private String  content;
-    private String  writer;
-    private int     view_cnt;
-    private int     comment_cnt;
-    private Date    reg_date;
+    private Integer bno; //게시글 번호
+    private String  title; //게시글 제목
+    private String  content; //게시글 내용
+    private String  writer; //게시글 작성자
+    private int     view_cnt; //게시글 조회수
+    private int     comment_cnt; //게시글 댓글 갯수
+    private Date    reg_date; //게시글 작성 날짜
 
     @Override
     public boolean equals(Object o) {

@@ -5,10 +5,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static java.lang.Math.*;
 import static java.util.Objects.requireNonNullElse;
 
-public class SearchCondition {
-    private Integer page = 1;
+public class SearchCondition { //조건 검색
+    //sql 맵퍼 작성후 없는부분 SearchCondition에서 추가
+    private Integer page = 1; //기본값을 주는이유는 나중에 컨트롤러에서 값을 받을때  값이 안들어오면 기본값으로한다.
     private Integer pageSize = DEFAULT_PAGE_SIZE;
-    private String  option = "";
+    private String  option = ""; //제목하고 내용을 검색할건지, 제목만 검색할 건지
     private String  keyword = "";
 //    private Integer  offset;
 

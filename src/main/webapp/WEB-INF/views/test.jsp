@@ -18,7 +18,7 @@ comment : <input type="text" name="comment"><br>
 
 <script>
     $(document).ready(function() {
-        let bno = 195;
+        let bno = 488;
 
         // 댓글 목록을 불러와 화면에 표시하는 함수
         let showList = function (bno) {
@@ -34,6 +34,33 @@ comment : <input type="text" name="comment"><br>
             });
         };
 
+        $("#wrtRepBtn").click(function () {
+            let comment = $("input[name=replyComment]").val();
+            let pcno = $("#replyForm").parent().attr("data-pcno");
+
+            if (comment.trim() == '') {
+                alert("댓글을 입력해주세요.");
+                $("input[name=replyComment]").focus();
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/ch4/comments?bno=' + bno,
+                headers: {"content-type": "application/json"},
+                data: JSON.stringify({pcno:pcno, bno: bno, comment: comment}),
+                success: function (result) {
+                    alert(result);
+                    showList(bno);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+            $("#replyForm").css("display","none")
+            $("input[name=replyComment]").val('')
+            $("#replyForm").appendTo("body");
+        });
         // 댓글 전송 버튼 클릭 시 처리
         $("#sendBtn").click(function () {
             let comment = $("input[name=comment]").val();
@@ -48,7 +75,7 @@ comment : <input type="text" name="comment"><br>
                 type: 'POST',
                 url: '/ch4/comments?bno=' + bno,
                 headers: {"content-type": "application/json"},
-                data: JSON.stringify({bno: bno, command: comment}),
+                data: JSON.stringify({bno: bno, comment: comment}),
                 success: function (result) {
                     alert(result);
                     showList(bno);
@@ -126,7 +153,9 @@ comment : <input type="text" name="comment"><br>
             comments.forEach(function (comment) {
                 tmp += '<li data-cno=' + comment.cno +
                     ' data-pcno=' + comment.pcno +
-                    ' data-bno=' + comment.bno + '>';
+                    ' data-bno=' + comment.bno + '>'
+                if(comment.cno!=comment.pcno)
+                    tmp += 'ㄴ';
                 tmp += ' commenter=<span class="commenter">' + comment.commenter + '</span>';
                 tmp += ' comment=<span class="comment">' + comment.comment + '</span>';
                 tmp += ' up_date=' + comment.up_date;
