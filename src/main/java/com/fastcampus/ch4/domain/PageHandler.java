@@ -21,7 +21,7 @@ public class PageHandler {
     }
 
     public PageHandler(int totalCnt, Integer page, Integer pageSize) {
-        this(totalCnt, new SearchCondition(page, pageSize));
+        this(totalCnt, new SearchCondition(page, pageSize)); //아래 생성자 호출
     }
 
     public PageHandler(int totalCnt, SearchCondition sc) {

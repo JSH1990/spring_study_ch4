@@ -19,7 +19,7 @@ public class SearchCondition { //조건 검색
 
     public SearchCondition(){}
 
-    public SearchCondition(Integer page, Integer pageSize) {
+    public SearchCondition(Integer page, Integer pageSize) { //옵션이나 키워드가 없는 상태로 들어오는 경우도 있기때문
         this(page, pageSize, "", "");
     }
 
