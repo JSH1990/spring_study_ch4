@@ -22,6 +22,7 @@ public class BoardDaoImpl implements BoardDao {
         return session.delete(namespace+"deleteAll");
     } // int delete(String statement)
 
+    //매개변수가 1개 이상이라 map을 사용
     @Override
     public int delete(Integer bno, String writer) throws Exception {
         Map map = new HashMap();
@@ -44,14 +45,14 @@ public class BoardDaoImpl implements BoardDao {
     } // T selectOne(String statement, Object parameter)
 
     @Override
-    public List<BoardDto> selectPage(Map map) throws Exception {
-        return session.selectList(namespace+"selectPage", map);
-    } // List<E> selectList(String statement, Object parameter)
-
-    @Override
     public int update(BoardDto dto) throws Exception {
         return session.update(namespace+"update", dto);
     } // int update(String statement, Object parameter)
+
+    @Override
+    public List<BoardDto> selectPage(Map map) throws Exception {
+        return session.selectList(namespace+"selectPage", map);
+    } // List<E> selectList(String statement, Object parameter)
 
     @Override
     public int increaseViewCnt(Integer bno) throws Exception {

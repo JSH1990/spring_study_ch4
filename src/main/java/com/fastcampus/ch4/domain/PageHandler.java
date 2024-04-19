@@ -32,12 +32,12 @@ public class PageHandler {
     }
 
     private void doPaging(int totalCnt, SearchCondition sc) {
-        this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize()==0? 0:1);
-        this.sc.setPage(Math.min(sc.getPage(), totalPage));  // page가 totalPage보다 크지 않게
-        this.beginPage = (this.sc.getPage() -1) / NAV_SIZE * NAV_SIZE + 1; // 11 -> 11, 10 -> 1, 15->11. 따로 떼어내서 테스트
-        this.endPage = Math.min(beginPage + NAV_SIZE - 1, totalPage);
-        this.showPrev = beginPage!=1;
-        this.showNext = endPage!=totalPage;
+        this.totalPage = totalCnt / sc.getPageSize() + (totalCnt % sc.getPageSize()==0? 0:1); //총 페이지수 계산
+        this.sc.setPage(Math.min(sc.getPage(), totalPage));  // page가 totalPage보다 크지 않게 / 현재 페이지 설명
+        this.beginPage = (this.sc.getPage() -1) / NAV_SIZE * NAV_SIZE + 1; // 11 -> 11, 10 -> 1, 15->11. 따로 떼어내서 테스트 / 시작 페이지
+        this.endPage = Math.min(beginPage + NAV_SIZE - 1, totalPage); //마지막 페이지
+        this.showPrev = beginPage!=1; //이전 페이지 네비게이션 표시 여부 결정
+        this.showNext = endPage!=totalPage; //다음 페이지 네비게이션 표시 여부 결정
     }
 
 

@@ -5,10 +5,10 @@ import com.fastcampus.ch4.domain.CommentDto;
 import java.util.List;
 
 public interface CommentDao {
-    int count(Integer bno) throws Exception // T selectOne(String statement)
+    int deleteAll(Integer bno) // int delete(String statement)
     ;
 
-    int deleteAll(Integer bno) // int delete(String statement)
+    int count(Integer bno) throws Exception // T selectOne(String statement)
     ;
 
     int delete(Integer cno, String commenter) throws Exception // int delete(String statement, Object parameter)
