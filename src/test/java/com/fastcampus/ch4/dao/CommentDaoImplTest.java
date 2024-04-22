@@ -79,7 +79,7 @@ public class CommentDaoImplTest {
     public void update() throws Exception {
         commentDao.deleteAll(1);
         CommentDto commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
+        assertTrue(commentDao.insert(commentDto)==1); //댓글 한개 생성
         assertTrue(commentDao.count(1)==1);
 
         List<CommentDto> list = commentDao.selectAll(1);
