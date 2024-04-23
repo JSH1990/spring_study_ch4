@@ -10,10 +10,11 @@ import java.util.*;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+    @Autowired
     BoardDao boardDao;
+    @Autowired
     CommentDao commentDao;
 
-//    @Autowired
     public CommentServiceImpl(CommentDao commentDao, BoardDao boardDao) {
         this.commentDao = commentDao;
         this.boardDao = boardDao;
@@ -24,6 +25,10 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.count(bno);
     }
 
+    /*
+        게시글의 댓글 수를 업데이트하고, 실제 댓글을 삭제하는 두 가지 데이터베이스 작업을 트랜잭션으로 묶어 처리
+        어느 한 작업에서 실패하면, 전체 작업이 롤백.
+    */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int remove(Integer cno, Integer bno, String commenter) throws Exception {

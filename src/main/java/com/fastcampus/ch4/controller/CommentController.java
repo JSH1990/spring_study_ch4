@@ -22,11 +22,16 @@ public class CommentController {
 //        "pcno":0,
 //            "comment" : "hihihi",
 //            "commenter" : "asdf"
-//    }
+//
+
     // 댓글을 수정하는 메서드
-    @PatchMapping("/comments/{cno}")   // /ch4/comments/26  PATCH
+    @PatchMapping("/comments/{cno}")
+    // @PathVariables - 댓글의 고유번호를 동적으로 지정하는 경로변수이다.
+    // ResponseEntity<String> - HTTP 상태 코드와 함께 응답 본문으로 문자열을 반환한다. (MOD_OK, MOD_ERR 같은 메세지 웹으로 반환)
+    // @RequestBody @RequestBody 어노테이션은 Spring Framework에서 클라이언트로부터 받은 HTTP 요청의 본문(body)을
+    // 자바 객체로 변환해 메소드의 파라미터로 전달하는 데 사용
     public ResponseEntity<String> modify(@PathVariable Integer cno, @RequestBody CommentDto dto) {
-//        String commenter = (String)session.getAttribute("id");
+//      String commenter = (String)session.getAttribute("id");
         String commenter = "bbb";
         dto.setCommenter(commenter);
         dto.setCno(cno);

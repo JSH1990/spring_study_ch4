@@ -10,7 +10,7 @@ public class SearchCondition { //조건 검색
     private Integer page = 1; //기본값을 주는이유는 나중에 컨트롤러에서 값을 받을때  값이 안들어오면 기본값으로한다.
     private Integer pageSize = DEFAULT_PAGE_SIZE;
     private String  option = ""; //제목하고 내용을 검색할건지, 제목만 검색할 건지
-    private String  keyword = "";
+    private String  keyword = ""; //boardList에서 keyword 옵션에 따라 ("", A, T, W) 선택하게 되어있어 빈열로 하였다.
 //    private Integer  offset;
 
     public static final int MIN_PAGE_SIZE = 5;
@@ -30,10 +30,12 @@ public class SearchCondition { //조건 검색
         this.keyword = keyword;
     }
 
+    //getQueryString()은 현재 페이지를 기반으로 링크를 생성할때 사용
     public String getQueryString() {
         return getQueryString(page);
     }
 
+    //getQueryString(Integer page)은 다른페이지를 선택했을때, 해당 페이지번호를 기반으로 링크를 생성할때 사용
     public String getQueryString(Integer page) {
         // ?page=10&pageSize=10&option=A&keyword=title
         return UriComponentsBuilder.newInstance()
