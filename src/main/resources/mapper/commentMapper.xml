@@ -3,19 +3,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.fastcampus.ch4.dao.CommentMapper">
+    <!-- 해당 게시물의 댓글 모두삭제 -->
     <delete id="deleteAll" parameterType="int">
         DELETE FROM comment
         WHERE  bno = #{bno}
     </delete>
 
+    <!-- 해당 게시물의 댓글 갯수조회 -->
     <select id="count" parameterType="int" resultType="int">
         SELECT count(*) FROM comment
         WHERE  bno = #{bno}
     </select>
 
+    <!-- 댓글자와 댓글번호가 같으면 댓글삭제 -->
     <delete id="delete" parameterType="map">
         DELETE FROM comment WHERE cno = #{cno} AND commenter = #{commenter}
     </delete>
+
 
     <insert id="insert" parameterType="CommentDto">
         INSERT INTO comment
@@ -37,6 +41,7 @@
         WHERE cno = #{cno}
     </select>
 
+    <!-- 댓글자와 댓글번호가 같으면 댓글수정 -->
     <update id="update" parameterType="CommentDto">
         UPDATE comment
         SET comment = #{comment}
