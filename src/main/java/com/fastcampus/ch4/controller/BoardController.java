@@ -78,6 +78,20 @@ public class BoardController {
         return "board";
     }
 
+    @GetMapping("/read")
+    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
+        try {
+            BoardDto boardDto = boardService.read(bno);
+            m.addAttribute(boardDto);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "board";
+    }
+
     @GetMapping("/list")
     public String list(SearchCondition sc, Model m, HttpServletRequest request) {
         if (!loginCheck(request))
@@ -103,20 +117,6 @@ public class BoardController {
 
 
         return "boardList";
-    }
-
-    @GetMapping("/read")
-    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
-        try {
-            BoardDto boardDto = boardService.read(bno);
-            m.addAttribute(boardDto);
-            m.addAttribute("page", page);
-            m.addAttribute("pageSize", pageSize);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return "board";
     }
 
     @PostMapping("/modify")

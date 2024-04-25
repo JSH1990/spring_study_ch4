@@ -38,12 +38,6 @@
         WHERE bno = #{bno}
     </select>
 
-    <select id="selectPage" parameterType="map" resultType="BoardDto">
-        <include refid="selectFromBoard"/>
-        ORDER BY reg_date DESC, bno DESC
-        LIMIT #{offset}, #{pageSize}
-    </select>
-
     <update id="update" parameterType="BoardDto">
         UPDATE board
         SET   title = #{title}
@@ -63,6 +57,17 @@
         SET   view_cnt = view_cnt + 1
         WHERE bno = #{bno}
     </update>
+
+    <!-- 전체 게시글에서 특정 부분만 게시물을 가져오는 데 사용 -->
+    <!-- 예를 들어, 사용자가 게시판의 3번째 페이지를 보고 싶고, 페이지 당 10개의 게시글이 있다.
+    이 경우, pageSize는 10이 되고, offset은 (페이지 번호 - 1) * 페이지 크기 공식에 따라 2 * 10 = 20이 왼다.
+    즉, 21번째 글부터 시작하여 총 10개의 글을 가져오게 됩니다. -->
+    <select id="selectPage" parameterType="map" resultType="BoardDto">
+        <include refid="selectFromBoard"/>
+        ORDER BY reg_date DESC, bno DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
 
     <sql id="searchCondition">
         <choose>
@@ -94,4 +99,5 @@
         WHERE true
         <include refid="searchCondition"/>
     </select>
+
 </mapper>

@@ -69,6 +69,15 @@
         <li><a href=""><i class="fa fa-search"></i></a></li>
     </ul>
 </div>
+
+<!--
+    폼 - 다음과 같은 내용을 포함하는 간단한 로그인 폼입니다:
+    이메일 입력란.
+    비밀번호 입력란.
+    반환 URL을 저장하기 위한 숨겨진 입력란.
+    사용자 편의 기능인 "아이디 기억", "비밀번호 찾기", "회원가입"과 같은 체크박스 및 링크.
+-->
+
 <form action="<c:url value="/login/login"/>" method="post" onsubmit="return formCheck(this);">
     <h3 id="title">Login</h3>
     <div id="msg">
@@ -78,14 +87,15 @@
     </div>
     <input type="text" name="id" value="${cookie.id.value}" placeholder="이메일 입력" autofocus>
     <input type="password" name="pwd" placeholder="비밀번호">
-    <input type="hidden" name="toURL" value="${param.toURL}">
+    <input type="hidden" name="toURL" value="${param.toURL}"> <!-- 링크주소 확인위해서 사용 -->
     <button>로그인</button>
     <div>
-        <label><input type="checkbox" name="rememberId" value="on" ${empty cookie.id.value ? "":"checked"}> 아이디 기억</label> |
+        <label><input type="checkbox" name="rememberId" value="on" ${empty cookie.id.value ? "":"checked"}> 아이디 기억</label>
         <a href="">비밀번호 찾기</a> |
         <a href="">회원가입</a>
     </div>
     <script>
+        //사용자가 id와 pwd를 입력하지않은경우, 오류 메세지 표시하고 false 반환해서 폼 제출을 중단.
         function formCheck(frm) {
             let msg ='';
             if(frm.id.value.length==0) {
@@ -98,6 +108,12 @@
             }
             return true;
         }
+
+        /*
+        setMessage() 함수는 오류 메시지를 표시하고, 사용자가 수정할 수 있도록 관련 입력 필드에 포커스를 맞춘다.
+        오류 메시지는 msg 변수에 저장되며, 해당 메시지는 msg HTML 요소의 내용으로 설정된다.
+        element.select() 호출은 사용자가 id또는 pwd를 입력하지않을때, 관련입력필드를 자동으로 선택하고, 포커스해 사용자가 쉽게 값을 입력할수있게 해줌
+         */
         function setMessage(msg, element){
             document.getElementById("msg").innerHTML = ` ${'${msg}'}`;
             if(element) {

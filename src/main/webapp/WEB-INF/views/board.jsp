@@ -92,7 +92,7 @@
         <input type="hidden" name="bno" value="${boardDto.bno}">
 
         <input name="title" type="text" value="${boardDto.title}" placeholder="  제목을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"}><br>
-        <textarea name="content" rows="20" placeholder=" 내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"}>${boardDto.content}</textarea><br>
+        <textarea name="content" rows="20" placeholder=" 내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"}>${boardDto.content}</textarea><br>  <!-- mode=="new" ? "" : "readonly='readonly'"를 지우면 게시글보기에서도 글이 수정이 된다. -->
 
         <c:if test="${mode eq 'new'}">
             <button type="button" id="writeBtn" class="btn btn-write"><i class="fa fa-pencil"></i> 등록</button>
@@ -114,7 +114,7 @@
             if(form.title.value=="") {
                 alert("제목을 입력해 주세요.");
                 form.title.focus();
-                return false;
+                return false; //'alert'를 보내고, 폼제출을 중지시켜야 해서 false로 반환.
             }
 
             if(form.content.value=="") {
@@ -138,12 +138,12 @@
                 form.submit();
         });
 
-        $("#modifyBtn").on("click", function(){
-            let form = $("#form");
+        $("#modifyBtn").on("click", function(){ //수정 버튼 클릭할때 메서드
+            let form = $("#form"); //제출한 form 변수를 let 변수에 넣기.
             let isReadonly = $("input[name=title]").attr('readonly');
 
             // 1. 읽기 상태이면, 수정 상태로 변경
-            if(isReadonly=='readonly') {
+            if(isReadonly=='readonly') { //
                 $(".writing-header").html("게시판 수정");
                 $("input[name=title]").attr('readonly', false);
                 $("textarea").attr('readonly', false);
