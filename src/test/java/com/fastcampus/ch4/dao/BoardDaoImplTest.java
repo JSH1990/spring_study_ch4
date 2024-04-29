@@ -143,10 +143,17 @@ public class BoardDaoImplTest {
         BoardDto boardDto = new BoardDto("no title", "no content", "asdf");
         assertTrue(boardDao.insert(boardDto)==1);
 
-        Integer bno = boardDao.selectAll().get(0).getBno();
-        boardDto.setBno(bno);
-        BoardDto boardDto2 = boardDao.select(bno);
-        assertTrue(boardDto.equals(boardDto2));
+        Integer bno = boardDao.selectAll().get(0).getBno(); //bno는 게시판번호(전체게시물리스트에서 0번째의 게시글번호 가져오기)
+        boardDto.setBno(bno); //boardDto(게시글객체)의 번호 bno로 수정
+        BoardDto boardDto2 = boardDao.select(bno); //수정한 게시글 번호를 boardDto2 객체에 주입
+        assertTrue(boardDto.equals(boardDto2)); //boardDto와 boardDto2 같은 객체인지 비교.
+
+        /*
+        1. 하나의 게시글을 작성(번호 부여됨)
+        2. 그 게시물의 번호를 꺼내 , bno에 담음(boardDao.select(bno)메서드를 사용하러면 bno가 필요)
+        3. boardDao.select(bno)를 이용해 , boardDto2 객체를 만듦
+        4. boardDto , boardDto2 비교(같을수밖에 없음. 같은번호의 게시물을 주입해서 비교하므로)
+         */
     }
 
     @Test

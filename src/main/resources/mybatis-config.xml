@@ -5,6 +5,11 @@
 <configuration>
     <typeAliases>
 
+        <!--
+            dto클래스의 주소 길이를 줄이기 위해서 사용하는것이다.
+            만약 별칭을 설정하지않으면 Mapper를 작성할때,
+            매개변수가 예를 들어 BoardDto 면  "com.fastcampus.ch4.domain.BoardDto" 이렇게 전체 주소를 적어야한다.
+        -->
         <typeAlias alias="CommentDto" type="com.fastcampus.ch4.domain.CommentDto"/>
         <typeAlias alias="BoardDto" type="com.fastcampus.ch4.domain.BoardDto"/>
         <typeAlias alias="SearchCondition" type="com.fastcampus.ch4.domain.SearchCondition"/>

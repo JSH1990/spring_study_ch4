@@ -8,7 +8,13 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Repository
+/*
+@Repository 작성안할때 :
+1. @Autowired 작성안됨
+2. @Test 에서 BoardDao Autowire 안됨
+ */
 public class BoardDaoImpl implements BoardDao {
+    // @Autowired 안붙이면 테스트할때 null 값으로 테스트에러남.
     @Autowired
     private SqlSession session;
     private static String namespace = "com.fastcampus.ch4.dao.BoardMapper.";
