@@ -98,7 +98,7 @@ public class BoardController {
             return "redirect:/login/login?toURL=" + request.getRequestURL();
 
         try {
-            int totalCnt = boardService.getSearchResultCnt(sc);
+            int totalCnt = boardService.getSearchResultCnt(sc); //검색 결과 갯수를 totalCnt 변수에 담는다.
             m.addAttribute("totalCnt", totalCnt);
 
             PageHandler pageHandler = new PageHandler(totalCnt, sc);
