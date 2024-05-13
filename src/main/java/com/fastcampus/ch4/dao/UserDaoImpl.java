@@ -40,12 +40,13 @@ public class UserDaoImpl implements UserDao {
         String sql = "SELECT * FROM user_info WHERE id= ? ";
 
         try (
-                Connection conn = ds.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
+                Connection conn = ds.getConnection(); //jdbc 연결
+                PreparedStatement pstmt = conn.prepareStatement(sql); //연결된 jdbc에 sql쿼리 담아 PreparedStatement에 담는다.
+
 
         ){
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery(); //  select
+            ResultSet rs = pstmt.executeQuery(); //이 줄에서 SQL 쿼리를 실행하고 결과를 ResultSet 객체로 받는다.
 
             if (rs.next()) {
                 user = new User();
